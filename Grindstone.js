@@ -1,10 +1,10 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Gem() {
+export default function Grindstone() {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Gem page</Text>
+            <Text style={styles.text}>Grindstone page</Text>
 
         </View>
     );

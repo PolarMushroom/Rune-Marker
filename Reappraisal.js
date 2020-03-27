@@ -1,10 +1,10 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Gem() {
+export default function Reappraisal() {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Gem page</Text>
+            <Text style={styles.text}>Reappraisal page</Text>
 
         </View>
     );

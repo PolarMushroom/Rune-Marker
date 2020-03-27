@@ -2,7 +2,7 @@ import React from "react";
 
 import { StyleSheet, Text, View, Button } from 'react-native';
 
-export default function Home() {
+export default function Home({ navigation }) {
 
     return (
         <View style={styles.container}>
@@ -10,9 +10,9 @@ export default function Home() {
                 <Text style={styles.text}>What do you need?</Text>
             </View>
             <View style={styles.body}>
-                <Button style={styles.choose} color="black" title="Gem" onPress={() => navigation.navigate('Details')} ></Button>
-                <Button style={styles.choose} title="Grindstone"></Button>
-                <Button style={styles.choose} title="Reappraisal"></Button>
+                <Button style={styles.choose} color="black" title="Gem" onPress={() => navigation.navigate('Gem')} ></Button>
+                <Button style={styles.choose} title="Grindstone" onPress={() => navigation.navigate('Grindstone')}></Button>
+                <Button style={styles.choose} title="Reappraisal" onPress={() => navigation.navigate('Reappraisal')}></Button>
             </View>
 
         </View>
