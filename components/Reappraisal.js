@@ -1,11 +1,11 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 export default function Reappraisal() {
     return (
         <View style={styles.container}>
             <Text style={styles.text}>Reappraisal page</Text>
-
+            <Image source={require("../images/Rune_slots.png")} />
         </View>
     );
 }

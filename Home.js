@@ -10,7 +10,7 @@ export default function Home({ navigation }) {
                 <Text style={styles.text}>What do you need?</Text>
             </View>
             <View style={styles.body}>
-                <Button style={styles.choose} color="black" title="Gem" onPress={() => navigation.navigate('Gem')} ></Button>
+                <Button style={styles.choose} title="Gem" onPress={() => navigation.navigate('Gem')} ></Button>
                 <Button style={styles.choose} title="Grindstone" onPress={() => navigation.navigate('Grindstone')}></Button>
                 <Button style={styles.choose} title="Reappraisal" onPress={() => navigation.navigate('Reappraisal')}></Button>
             </View>
@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
         flex: 1
     },
     nav: {
-
         backgroundColor: '#fff',
-        paddingTop: 40,
+        paddingTop: 20,
+        paddingBottom: 20,
         alignItems: 'center'
         // justifyContent: 'center'
     },

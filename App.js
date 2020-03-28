@@ -2,53 +2,37 @@ import * as React from 'react';
 import { Button, View, Text } from 'react-native';
 import Loading from './Loading';
 import Home from "./Home";
-import Gem from './Gem'
+import Gem from './components/Gem'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Grindstone from './Grindstone';
-import Reappraisal from './Reappraisal';
-// import { NavigationContainer } from 'react-navigation';
-// import { createStackNavigator } from "react-native-stack"
+import Grindstone from './components/Grindstone';
+import Reappraisal from './components/Reappraisal';
+import runePick from './runePick'
 
-
-// const Navigator = createStackNavigator({
-//   Home: { screen: Home },
-//   Gem: { screen: Gem }
-// });
-function Apap({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ fontSize: 20 }}>Have you?</Text>
-      <Button
-        title="Go to Profile"
-        onPress={() => navigation.navigate('Papa')}
-      />
-    </View>
-  );
-}
-function Papa({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ fontSize: 20 }}>Hod rune today!!!?</Text>
-      <Button
-        title="Go to Profile"
-        onPress={() => navigation.navigate('Apapa')}
-      />
-    </View >
-  );
-}
 
 
 const Stack = createStackNavigator();
-
+// function sendPicker({ navigation }) {
+//   return navigation.navigate('Picker')
+// }
 function MyStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Home" component={Home} options={{
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTintColor: '#black',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }, title: 'My home'
+        }} />
+        {/* options={{ headerRight: () => (<Button onPress={() => navigate('Picker')} title="+" />), }} */}
         <Stack.Screen name="Gem" component={Gem} />
         <Stack.Screen name="Grindstone" component={Grindstone} />
         <Stack.Screen name="Reappraisal" component={Reappraisal} />
+        <Stack.Screen name="runePick" component={runePick} />
       </Stack.Navigator>
     </NavigationContainer>
   );
