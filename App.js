@@ -8,6 +8,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Grindstone from './components/Grindstone';
 import Reappraisal from './components/Reappraisal';
 import runePick from './runePick'
+import Runes from './components/Runes';
+
 
 
 
@@ -23,13 +25,14 @@ function MyStack() {
           headerStyle: {
             backgroundColor: '#fff',
           },
-          headerTintColor: '#black',
+          headerRight: ({ navigate }) => (<Button title="Gem" onPress={() => navigation.navigate('Gem')} ></Button>),
           headerTitleStyle: {
             fontWeight: 'bold',
           }, title: 'My home'
         }} />
         {/* options={{ headerRight: () => (<Button onPress={() => navigate('Picker')} title="+" />), }} */}
         <Stack.Screen name="Gem" component={Gem} />
+        <Stack.Screen name="Runes" component={Runes} />
         <Stack.Screen name="Grindstone" component={Grindstone} />
         <Stack.Screen name="Reappraisal" component={Reappraisal} />
         <Stack.Screen name="runePick" component={runePick} />
@@ -37,6 +40,7 @@ function MyStack() {
     </NavigationContainer>
   );
 }
+
 export default class app extends React.Component {
   state = {
     isLoading: false
@@ -44,11 +48,29 @@ export default class app extends React.Component {
   }
 
 
+
+
   render() {
     const { isLoading } = this.state
-    return isLoading ? <Loading /> : <MyStack />
+    return isLoading ? <Loading /> : <NavigationContainer>
+      <Stack.Navigator>
 
 
+        <Stack.Screen name="Home" component={Home} options={{
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }, title: 'My home'
+        }} />
+
+        <Stack.Screen name="Gem" component={Gem} />
+        <Stack.Screen name="Grindstone" component={Grindstone} />
+        <Stack.Screen name="Reappraisal" component={Reappraisal} />
+        <Stack.Screen name="runePick" component={runePick} />
+      </Stack.Navigator>
+    </NavigationContainer>
 
     // isLoading ? <Loading /> : <Home />
   }
