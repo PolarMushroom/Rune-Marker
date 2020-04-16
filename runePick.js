@@ -76,16 +76,16 @@ export default class runePicker extends React.Component {
             this.setState(prevState => {
                 const newToDoObject = {
                     [ID]: {
-                        id: ID,
-                        isCompleted: false,
                         runeType: runeType,
                         runeNum: runeNum,
                         gemPrev: gemPrev,
                         gemAfter: gemAfter,
                         grindStone: grindStone,
-                        reapprisal: reapprisal,
                         description: description,
+                        // isCompleted: false,
+                        id: ID,
                         created: Date.now(),
+                        reapprisal: reapprisal,
                     }
                 };
                 const newState = {
@@ -178,7 +178,7 @@ export default class runePicker extends React.Component {
                         </View>
                         <Picker style={styles.pickGem} selectedValue={gemPrev} onValueChange={(itemValue, itemIndex) => this.setState({ gemPrev: itemValue })}>
                             <Picker.Item label="select" value="0" />
-                            <Picker.Item label="ATK+" value="ATK+" />
+                            <Picker.Item label="ATK+" value="atk+" />
                             <Picker.Item label="DEF+" value="DEF+" />
                             <Picker.Item label="HP+" value="HP+" />
                             <Picker.Item label="ATK%" value="ATK%" />

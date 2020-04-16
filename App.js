@@ -6,7 +6,7 @@ import Gem from './components/Gem'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Grindstone from './components/Grindstone';
-import Reappraisal from './components/Reappraisal';
+import RuneCustom from './components/RuneCustom';
 import runePick from './runePick'
 import Runes from './components/Runes';
 
@@ -34,7 +34,7 @@ function MyStack() {
         <Stack.Screen name="Gem" component={Gem} />
         <Stack.Screen name="Runes" component={Runes} />
         <Stack.Screen name="Grindstone" component={Grindstone} />
-        <Stack.Screen name="Reappraisal" component={Reappraisal} />
+        <Stack.Screen name="RuneCustom" component={RuneCustom} />
         <Stack.Screen name="runePick" component={runePick} />
       </Stack.Navigator>
     </NavigationContainer>
@@ -67,7 +67,7 @@ export default class app extends React.Component {
 
         <Stack.Screen name="Gem" component={Gem} />
         <Stack.Screen name="Grindstone" component={Grindstone} />
-        <Stack.Screen name="Reappraisal" component={Reappraisal} />
+        <Stack.Screen name="RuneCustom" component={RuneCustom} />
         <Stack.Screen name="runePick" component={runePick} />
       </Stack.Navigator>
     </NavigationContainer>

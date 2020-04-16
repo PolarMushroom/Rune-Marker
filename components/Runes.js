@@ -42,7 +42,7 @@ export default class Runes extends React.Component {
                     <View style={[styles.raido, isCompleted ? styles.completedRadio : styles.unCompletedRaido]}></View>
                 </TouchableOpacity>
                 <TouchableOpacity onPressOut={() => goToEdit(id)}>
-                    <Text style={[styles.text, isCompleted ? styles.completedText : styles.unCompletedText]}>{runeType} {gemPrev}number {runeNum}ss</Text>
+                    <Text style={[styles.text, isCompleted ? styles.completedText : styles.unCompletedText]}>{runeType} {gemPrev}number {runeNum}</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.actions}>
