@@ -68,8 +68,14 @@ export default class Home extends React.Component {
         searchRuneList: []
     }
     _updateSearch = async (searcht) => {
-        await this.setState({ search: searcht.toLowerCase() });
+        const searching = searcht.toLowerCase();
+
+        await this.setState({
+            search: searcht
+        });
         const { search } = this.state
+        console.log(`after ${searcht}`);
+
         if (search == "") {
             console.log("empty~~");
         } else {
@@ -116,7 +122,7 @@ export default class Home extends React.Component {
             console.log(tested);
             //check search result and add on runes
             tested.forEach(element => {
-                if (element.toLowerCase().includes(search) == true) {
+                if (element.toLowerCase().includes(search.toLowerCase()) == true) {
 
 
                     //add ID to the array List
@@ -259,6 +265,7 @@ export default class Home extends React.Component {
                         placeholder="Type Here..."
                         onChangeText={this._updateSearch}
                         color={"#9F8B58"}
+                        autoCorrect={false}
                         // noIcon={true}
                         round={true}
                         value={search}
