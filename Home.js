@@ -5,17 +5,20 @@ import { ScrollView, FlatList, TouchableOpacity } from "react-native-gesture-han
 import Runes from './components/Runes'
 import { SearchBar } from 'react-native-elements';
 import { Icon } from "react-native-elements";
-import { HitTestResultTypes } from "expo/build/AR";
 import { element } from "prop-types";
 
-function Item({ id, runeType, runeNum, gemPrev, goToEdit, deleteRune }) {
+function Item({ id, runeType, runeNum, gemPrev, gemAfter, grindStone, goToEdit, deleteRune }) {
 
     return (
 
-        <View style={styles.container}>
-            <TouchableOpacity onPressOut={() => goToEdit(id)}>
-                <Text style={styles.text}>{runeType} {gemPrev}number {runeNum}</Text>
-            </TouchableOpacity>
+        <View style={styles.itemContainer}>
+            <View style={styles.runeDescription}>
+                <TouchableOpacity onPressOut={() => goToEdit(id)}>
+                    <Text style={styles.runeType}> {runeType.charAt(0).toUpperCase() + runeType.slice(1)} ({runeNum}){checkGem(gemAfter)}{checkGrindStone(grindStone, gemAfter)}</Text>
+                    {/* <Text style={styles.runeType}>{checkGem(gemAfter)}{checkGrindStone(grindStone)}</Text> */}
+                    {/* <Text style={styles.text}></Text> */}
+                </TouchableOpacity>
+            </View>
             <View style={styles.actions}>
                 <TouchableOpacity onPressOut={() => deleteRune(id)}>
                     <View style={styles.actionContainer}>
@@ -31,7 +34,29 @@ function Item({ id, runeType, runeNum, gemPrev, goToEdit, deleteRune }) {
         </View>
     );
 }
+//check gemAfter is exist True:return value / False:return null
+function checkGem(input) {
+    // console.log(input);
+    if (input !== "") {
+        const grindStone = input
+        return `\n Gem: ${grindStone}`
+    } else {
+        return ""
+    }
+}
+function checkGrindStone(input, checkGem) {
+    // console.log(input);
 
+    if (input !== "" && checkGem !== "") {
+        const gemAfter = input
+        return ` Grindstone: ${gemAfter}`
+    } else if (input !== "" && checkGem == "") {
+        const gemAfter = input
+        return `\n Grindstone: ${gemAfter}`
+    } else {
+        return ""
+    }
+}
 export default class Home extends React.Component {
     // _isMounted = false;
     state = {
@@ -42,12 +67,14 @@ export default class Home extends React.Component {
         search: "",
         searchRuneList: []
     }
-    _updateSearch = searcht => {
-        this.setState({ search: searcht.toLowerCase() });
+    _updateSearch = async (searcht) => {
+        await this.setState({ search: searcht.toLowerCase() });
         const { search } = this.state
         if (search == "") {
             console.log("empty~~");
         } else {
+            console.log(search);
+
             this._getSearch()
         }
 
@@ -57,41 +84,43 @@ export default class Home extends React.Component {
     }
     _getSearch = async () => {
         const { runes, search } = this.state;
+        console.log(search);
 
         // const tss = Object.values(runes)[0]
         // tss.shift();
         // use str includes and array faor each
         // console.log(searchTest.includes(search));
-        search.toLowerCase();
+        // search.toLowerCase();
         const ww = Object.values(Object.values(runes))
         // console.log(ww);
         // console.log("=====================================================");
 
         let runeIdList = []
+        console.log(ww);
 
         // const iterator = ww.values();
         // var results = [];
         for (var i = 0; i < ww.length; i++) {
-            let testing = []
+            let tested = []
             let ss = search
-            testing = Object.values(ww[i])
+            tested = Object.values(ww[i])
             ss = Object.values(ww[i])
             // console.log(ss[0]);
             // console.log("=====================================================");
 
-            testing.pop()
-            testing.pop()
-            testing.pop()
+            tested.pop()
+            tested.pop()
+            tested.pop()
 
 
-            console.log(testing);
+            console.log(tested);
             //check search result and add on runes
-            testing.forEach(element => {
-                if (element.includes(search) == true) {
+            tested.forEach(element => {
+                if (element.toLowerCase().includes(search) == true) {
 
 
                     //add ID to the array List
-                    runeIdList.push(ss[6]);
+                    runeIdList.push(ss[7]);
                     // console.log(ss);
 
 
@@ -101,7 +130,7 @@ export default class Home extends React.Component {
                 }
 
             });
-            console.log(runeIdList);
+            // console.log(runeIdList);
             // var joined = this.state.searchRuneList.concat([runeIdList]);
 
             // this.setState({ searchRuneList: [...runeIdList] })
@@ -109,9 +138,9 @@ export default class Home extends React.Component {
             await this._updateRuneList(runeIdList)
             // console.log(testing.substring(0, 3) === search);
             // testing.includes(testing)
-            console.log("=====================================================");
-            const { searchRuneList } = this.state
-            console.log(`actual data : ${searchRuneList}`);
+            // console.log("=====================================================");a
+            // const { searchRuneList } = this.statea
+            // console.log(`actual data : ${searchRuneList}`);a
 
         }
 
@@ -126,12 +155,11 @@ export default class Home extends React.Component {
         // if(Object.values(runes)[0] == search)
         // console.log(Object.values(Object.values(runes)[0]))
     }
-    _checking = () => {
+    _checking = async () => {
         const { runes, searchRuneList } = this.state
         let newState = {}
-        let iphone = {}
 
-        console.log(searchRuneList[0].length);
+        // console.log(searchRuneList[0].length);
         for (let index = 0; index < searchRuneList[0].length; index++) {
 
             const newList = {
@@ -148,9 +176,9 @@ export default class Home extends React.Component {
 
 
         }
-        console.log(newState);
+        // console.log(newState);
 
-        this.setState({ runes: newState })
+        await this.setState({ runes: newState })
         // iphone = runes[searchRuneList[0][0]]
         // console.log(iphone);
 
@@ -183,6 +211,11 @@ export default class Home extends React.Component {
     }
     _saveRune = (newRunes) => {
         const saveRune = AsyncStorage.setItem("runes", JSON.stringify(newRunes))
+    }
+    _sss = () => {
+        const { search } = this.state
+        console.log(search);
+
     }
 
     _loadRunes = async () => {
@@ -221,12 +254,15 @@ export default class Home extends React.Component {
                 <View style={styles.nav}>
                     {/* <Text style={styles.text}>Welcome</Text> */}
                     <SearchBar
-                        containerStyle={{ width: "100%" }}
+                        inputStyle={{ color: '#9F8B58', }}
+                        containerStyle={{ width: "100%", backgroundColor: '#372211', borderWidth: 0, borderRadius: 5, borderTopWidth: 0, borderBottomWidth: 0 }}
                         placeholder="Type Here..."
                         onChangeText={this._updateSearch}
-
+                        color={"#9F8B58"}
+                        // noIcon={true}
+                        round={true}
                         value={search}
-                        lightTheme={true}
+                    // lightTheme={true}
                     />
                 </View>
                 {/* <Text>{runes[item].id}</Text> */}
@@ -243,6 +279,8 @@ export default class Home extends React.Component {
                         runeType={runes[item].runeType}
                         runeNum={runes[item].runeNum}
                         gemPrev={runes[item].gemPrev}
+                        gemAfter={runes[item].gemAfter}
+                        grindStone={runes[item].grindStone}
                         goToEdit={this._goToEdit}
                         deleteRune={this._deleteRune}
                     />}
@@ -266,9 +304,9 @@ export default class Home extends React.Component {
                 {/* <View style={styles.as}><Text>sds</Text></View> */}
 
                 <View style={styles.iconContainer}>
-                    <Icon name='add-circle' color="#2980b9" onPress={() => this.props.navigation.navigate('runePick')}></Icon>
+                    <Icon name='add-circle' color="#FFCD1D" onPress={() => this.props.navigation.navigate('runePick')}></Icon>
                 </View>
-                <Button title="callback" disabled={false} onPress={() => this._checking()}></Button>
+                {/* <Button title="callback" disabled={false} onPress={() => this._sss()}></Button> */}
 
                 {/* <View style={styles.body}>
                     <Button style={styles.choose} title="Gem" onPress={() => this.props.navigation.navigate('Gem')} ></Button>
@@ -283,13 +321,31 @@ export default class Home extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: "#372211"
     },
-    as: {
-        backgroundColor: "red"
+    itemContainer: {
+        justifyContent: "space-between",
+        alignItems: "center",
+        flexDirection: "row"
+    },
+    runeDescription: {
+        flexDirection: "row",
+        // backgroundColor: "red",
+        justifyContent: "center"
+    },
+    runeType: {
+        fontSize: 20,
+        margin: 4,
+        borderWidth: 2,
+        borderRadius: 8,
+        textAlign: "auto",
+        color: "#9F8B58",
+        backgroundColor: "#533C21",
+        borderColor: "#2B1606"
     },
     nav: {
-        backgroundColor: '#fff',
+        backgroundColor: "#372211",
         paddingTop: 20,
         paddingBottom: 20,
         alignItems: 'center'
@@ -301,7 +357,13 @@ const styles = StyleSheet.create({
 
     },
     text: {
-        fontSize: 20
+        fontSize: 20,
+        color: "#9F8B58",
+        margin: 4,
+
+    },
+    actions: {
+        marginRight: 10
     },
     choose: {
         flex: 1,
@@ -314,11 +376,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         flex: 0.1,
         left: 0,
-        right: 20,
+        right: 25,
         bottom: 0,
         // backgroundColor: 'green',
         flexDirection: 'row',
-        height: 80,
+        height: 60,
         justifyContent: 'flex-end',
     }
 });

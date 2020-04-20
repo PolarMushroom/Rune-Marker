@@ -21,23 +21,44 @@ function MyStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+
+
         <Stack.Screen name="Home" component={Home} options={{
           headerStyle: {
-            backgroundColor: '#fff',
+            backgroundColor: '#372211',
           },
-          headerRight: ({ navigate }) => (<Button title="Gem" onPress={() => navigation.navigate('Gem')} ></Button>),
           headerTitleStyle: {
             fontWeight: 'bold',
-          }, title: 'My home'
+            color: "#9F8B58"
+          }, title: 'Rune Marker',
+
         }} />
-        {/* options={{ headerRight: () => (<Button onPress={() => navigate('Picker')} title="+" />), }} */}
+
         <Stack.Screen name="Gem" component={Gem} />
-        <Stack.Screen name="Runes" component={Runes} />
         <Stack.Screen name="Grindstone" component={Grindstone} />
-        <Stack.Screen name="RuneCustom" component={RuneCustom} />
-        <Stack.Screen name="runePick" component={runePick} />
+        <Stack.Screen name="RuneCustom" component={RuneCustom} options={{
+          headerStyle: {
+            backgroundColor: '#372211',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: "#9F8B58"
+          }, title: 'Rune Page',
+
+        }} />
+        <Stack.Screen name="runePick" component={runePick} options={{
+          headerStyle: {
+            backgroundColor: '#372211',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: "#9F8B58"
+          }, title: 'Create Rune',
+
+        }} />
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 }
 
@@ -52,26 +73,7 @@ export default class app extends React.Component {
 
   render() {
     const { isLoading } = this.state
-    return isLoading ? <Loading /> : <NavigationContainer>
-      <Stack.Navigator>
-
-
-        <Stack.Screen name="Home" component={Home} options={{
-          headerStyle: {
-            backgroundColor: '#fff',
-          },
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          }, title: 'My home'
-        }} />
-
-        <Stack.Screen name="Gem" component={Gem} />
-        <Stack.Screen name="Grindstone" component={Grindstone} />
-        <Stack.Screen name="RuneCustom" component={RuneCustom} />
-        <Stack.Screen name="runePick" component={runePick} />
-      </Stack.Navigator>
-    </NavigationContainer>
-
+    return isLoading ? <Loading /> : <MyStack />
     // isLoading ? <Loading /> : <Home />
   }
 
