@@ -33,7 +33,7 @@ function MyStack() {
           },
           title: 'Rune Marker',
           headerRight: () => (
-            <TouchableOpacity onPressOut={() => { Alert.alert("Report Bug to:test12 \nvictoriy104@gmail.com") }}>
+            <TouchableOpacity onPressOut={() => { Alert.alert("Report Bug to:\nvictoriy104@gmail.com") }}>
               <Icon
                 name='bug'
                 type='font-awesome'
