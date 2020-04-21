@@ -16,9 +16,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const Stack = createStackNavigator();
-// function sendPicker({ navigation }) {
-//   return navigation.navigate('Picker')
-// }
+
 function MyStack() {
   return (
     <NavigationContainer>
@@ -35,7 +33,7 @@ function MyStack() {
           },
           title: 'Rune Marker',
           headerRight: () => (
-            <TouchableOpacity onPressOut={() => { Alert.alert("Report Bug to: \nvictoriy104@gmail.com") }}>
+            <TouchableOpacity onPressOut={() => { Alert.alert("Report Bug to:test12 \nvictoriy104@gmail.com") }}>
               <Icon
                 name='bug'
                 type='font-awesome'
@@ -92,75 +90,3 @@ export default class app extends React.Component {
 
 }
 
-
-// import * as React from 'react';
-// import { Button, View, Text } from 'react-native';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
-
-// function HomeScreen({ navigation }) {
-//   return (
-//     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//       <Button
-//         title="Go to Profile"
-//         onPress={() => navigation.navigate('Apap')}
-//       />
-//     </View>
-//   );
-// }
-
-
-// function ProfileScreen({ navigation }) {
-//   return (
-//     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//       <Button
-//         title="Go to Notifications"
-//         onPress={() => navigation.navigate('Notifications')}
-//       />
-//       <Button title="Go back" onPress={() => navigation.goBack()} />
-//     </View>
-//   );
-// }
-
-// function NotificationsScreen({ navigation }) {
-//   return (
-//     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//       <Button
-//         title="Go to Settings"
-//         onPress={() => navigation.navigate('Settings')}
-//       />
-//       <Button title="Go back" onPress={() => navigation.goBack()} />
-//     </View>
-//   );
-// }
-
-// function SettingsScreen({ navigation }) {
-//   return (
-//     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//       <Button title="Go back" onPress={() => navigation.goBack()} />
-//     </View>
-//   );
-// }
-
-// const Stack = createStackNavigator();
-
-// function MyStack() {
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen name="Home" component={HomeScreen} />
-//       <Stack.Screen name="Apap" component={Apap} />
-//       <Stack.Screen name="Papa" component={Papa} />
-//       <Stack.Screen name="Notifications" component={NotificationsScreen} />
-//       <Stack.Screen name="Profile" component={ProfileScreen} />
-//       <Stack.Screen name="Settings" component={SettingsScreen} />
-//     </Stack.Navigator>
-//   );
-// }
-
-// export default function App() {
-//   return (
-//     <NavigationContainer>
-//       <MyStack />
-//     </NavigationContainer>
-//   );
-// }

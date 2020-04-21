@@ -1,14 +1,11 @@
 import React from 'react'
-import { StyleSheet, Picker, View, Button, Alert, Text, AsyncStorage, Keyboard, Image } from 'react-native';
+import { StyleSheet, Picker, View, Button, Alert, Text, AsyncStorage, Keyboard, Image, KeyboardAvoidingView } from 'react-native';
 import { v5 as uuidv5 } from 'uuid';
 import { Switch, TextInput, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Unchecked from './images/Unchecked.png'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { CheckBox } from "react-native-elements"
-//폭주:1
-//#10 참고
-// function sumbit( runeType, runeNum ) {
-//     return Alert.alert(`you selected ${runeType} rune with number ${runeNum}`)
-// }
+
 export default class runePicker extends React.Component {
     state = {
         runeType: "0",
@@ -161,162 +158,167 @@ export default class runePicker extends React.Component {
     render() {
         const { runeType, runeNum, mainOption, reapprisal, gemPrev, gemAfter, showGem, showGrindStone, grindStone } = this.state
         return (
-            <ScrollView style={styles.container}>
-                <View style={styles.pickerContainer}>
-                    <View style={styles.pickerContainerContainerMain}>
-                        <View style={styles.textContainerww}>
-                            <Text style={styles.textMain}> Rune Type:</Text>
-                        </View>
-                        <Picker style={styles.pickRune} mode="dropdown" selectedValue={runeType}
-                            onValueChange={(itemValue, itemIndex) => {
-                                this.setState({
-                                    runeType: itemValue
-                                })
-                            }}>
-                            <Picker.Item label="Select" value="0" />
-                            <Picker.Item label="Violent" value="violent" />
-                            <Picker.Item label="Will" value="will" />
-                            <Picker.Item label="Swift" value="swift" />
-                            <Picker.Item label="Despair" value="despair" />
-                            <Picker.Item label="Blade" value="balde" />
-                            <Picker.Item label="Nemesis" value="nemesis" />
-                            <Picker.Item label="Endure" value="endure" />
-                            <Picker.Item label="Rage" value="rage" />
-                            <Picker.Item label="Destroy" value="destroy" />
-                            <Picker.Item label="Focus" value="focus" />
-                            <Picker.Item label="Shield" value="shield" />
-                            <Picker.Item label="Fatal" value="fatal" />
-                            <Picker.Item label="Revenge" value="revenge" />
-                            <Picker.Item label="Guard" value="guard" />
-                            <Picker.Item label="Vampire" value="vampire" />
-                            <Picker.Item label="Enhance" value="enhance" />
-                            <Picker.Item label="Energy" value="energy" />
-                            <Picker.Item label="Tolerance" value="tolerance" />
-                            <Picker.Item label="Fight" value="fight" />
-                            <Picker.Item label="Determination" value="determination" />
-                        </Picker>
-                    </View>
-                    <View style={styles.pickerContainerContainerMain}>
-                        <View style={styles.textContainerww}>
-                            <Text style={styles.textMain}>Rune Number:</Text>
-                        </View>
-                        <Picker style={styles.pickRune} selectedValue={runeNum} mode="dropdown" onValueChange={(itemValue, itemIndex) => {
-                            if (itemValue == 1) {
-                                this.setState({ mainOption: "ATK+" })
-                            } else if (itemValue == 3) {
-                                this.setState({ mainOption: "DEF+" })
-                            } else if (itemValue == 5) {
-                                this.setState({ mainOption: "HP+" })
-                            }
-                            this.setState({ runeNum: itemValue })
-                        }}>
-                            <Picker.Item label="Select Rune Number" value="0" />
-                            <Picker.Item label="1" value="1" />
-                            <Picker.Item label="2" value="2" />
-                            <Picker.Item label="3" value="3" />
-                            <Picker.Item label="4" value="4" />
-                            <Picker.Item label="5" value="5" />
-                            <Picker.Item label="6" value="6" />
-                        </Picker>
-                    </View>
-                </View>
-                <View style={styles.pickerMainOption}>
-                    <View style={styles.textContainerww}>
-                        <Text style={styles.textMain}> Main Option:</Text>
-                    </View>
-                    <Picker style={styles.pickOption} mode="dropdown" selectedValue={mainOption} onValueChange={(itemValue, itemIndex) => this.setState({ mainOption: itemValue })}>
 
-                        <Picker.Item label="HP%" value="HP%" />
-                        <Picker.Item label="SPD" value="SPD" />
-                        <Picker.Item label="DEF%" value="DEF%" />
-                        <Picker.Item label="ATK%" value="ATK%" />
-                        <Picker.Item label="CRI DMG" value="CRI DMG" />
-                        <Picker.Item label="CRI Rate" value="CRI Rate" />
-                        <Picker.Item label="ATK+" value="ATK+" />
-                        <Picker.Item label="DEF+" value="DEF+" />
-                        <Picker.Item label="HP+" value="HP+" />
-                        <Picker.Item label="Resistance" value="Resistance" />
-                        <Picker.Item label="Accuracy" value="Accuracy" />
-                    </Picker>
-                </View>
-                <View style={styles.checkBoxContainer}>
-                    {/* <Text style={styles.switchText}>Gem:</Text> */}
-                    <CheckBox
-                        title='Gem:'
-                        iconRight
-                        center
-                        textStyle={{
-                            color: "#DFC87F",
-                            fontSize: 20,
-                        }}
-                        checkedColor="#FFCD1D"
 
-                        containerStyle={styles.checkBox}
-                        checked={showGem}
-                        onPress={this._askGem} />
-                </View>
-                {showGem ? (
-                    <View style={styles.pickerContainerContainer}>
-                        {/* <View style={styles.textContainer}>
-                            <Text style={styles.text}></Text>
-                        </View> */}
-                        <View style={styles.pickSubOptionContainer}>
-                            <Picker style={styles.pickGem} mode="dropdown" selectedValue={gemPrev} onValueChange={(itemValue, itemIndex) => this.setState({ gemPrev: itemValue })}>
-                                <Picker.Item label="From" value="0" />
+            <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
+
+                <View style={styles.container}>
+                    <ScrollView style={styles.container}>
+                        <View style={styles.pickerContainer}>
+                            <View style={styles.pickerContainerContainerMain}>
+                                <View style={styles.textContainerww}>
+                                    <Text style={styles.textMain}> Rune Type:</Text>
+                                </View>
+                                <Picker style={styles.pickRune} mode="dropdown" selectedValue={runeType}
+                                    onValueChange={(itemValue, itemIndex) => {
+                                        this.setState({
+                                            runeType: itemValue
+                                        })
+                                    }}>
+                                    <Picker.Item label="Select" value="0" />
+                                    <Picker.Item label="Violent" value="violent" />
+                                    <Picker.Item label="Will" value="will" />
+                                    <Picker.Item label="Swift" value="swift" />
+                                    <Picker.Item label="Despair" value="despair" />
+                                    <Picker.Item label="Blade" value="balde" />
+                                    <Picker.Item label="Nemesis" value="nemesis" />
+                                    <Picker.Item label="Endure" value="endure" />
+                                    <Picker.Item label="Rage" value="rage" />
+                                    <Picker.Item label="Destroy" value="destroy" />
+                                    <Picker.Item label="Focus" value="focus" />
+                                    <Picker.Item label="Shield" value="shield" />
+                                    <Picker.Item label="Fatal" value="fatal" />
+                                    <Picker.Item label="Revenge" value="revenge" />
+                                    <Picker.Item label="Guard" value="guard" />
+                                    <Picker.Item label="Vampire" value="vampire" />
+                                    <Picker.Item label="Enhance" value="enhance" />
+                                    <Picker.Item label="Energy" value="energy" />
+                                    <Picker.Item label="Tolerance" value="tolerance" />
+                                    <Picker.Item label="Fight" value="fight" />
+                                    <Picker.Item label="Determination" value="determination" />
+                                </Picker>
+                            </View>
+                            <View style={styles.pickerContainerContainerMain}>
+                                <View style={styles.textContainerww}>
+                                    <Text style={styles.textMain}>Rune Number:</Text>
+                                </View>
+                                <Picker style={styles.pickRune} selectedValue={runeNum} mode="dropdown" onValueChange={(itemValue, itemIndex) => {
+                                    if (itemValue == 1) {
+                                        this.setState({ mainOption: "ATK+" })
+                                    } else if (itemValue == 3) {
+                                        this.setState({ mainOption: "DEF+" })
+                                    } else if (itemValue == 5) {
+                                        this.setState({ mainOption: "HP+" })
+                                    }
+                                    this.setState({ runeNum: itemValue })
+                                }}>
+                                    <Picker.Item label="Select Rune Number" value="0" />
+                                    <Picker.Item label="1" value="1" />
+                                    <Picker.Item label="2" value="2" />
+                                    <Picker.Item label="3" value="3" />
+                                    <Picker.Item label="4" value="4" />
+                                    <Picker.Item label="5" value="5" />
+                                    <Picker.Item label="6" value="6" />
+                                </Picker>
+                            </View>
+                        </View>
+                        <View style={styles.pickerMainOption}>
+                            <View style={styles.textContainerww}>
+                                <Text style={styles.textMain}> Main Option:</Text>
+                            </View>
+                            <Picker style={styles.pickOption} mode="dropdown" selectedValue={mainOption} onValueChange={(itemValue, itemIndex) => this.setState({ mainOption: itemValue })}>
+
+                                <Picker.Item label="HP%" value="HP%" />
+                                <Picker.Item label="SPD" value="SPD" />
+                                <Picker.Item label="DEF%" value="DEF%" />
+                                <Picker.Item label="ATK%" value="ATK%" />
+                                <Picker.Item label="CRI DMG" value="CRI DMG" />
+                                <Picker.Item label="CRI Rate" value="CRI Rate" />
                                 <Picker.Item label="ATK+" value="ATK+" />
                                 <Picker.Item label="DEF+" value="DEF+" />
                                 <Picker.Item label="HP+" value="HP+" />
-                                <Picker.Item label="ATK%" value="ATK%" />
-                                <Picker.Item label="DEF%" value="DEF%" />
-                                <Picker.Item label="HP%" value="HP%" />
-                                <Picker.Item label="SPD" value="SPD" />
-                                <Picker.Item label="CRI DMG" value="CRI DMG" />
-                                <Picker.Item label="CRI Rate" value="CRI Rate" />
                                 <Picker.Item label="Resistance" value="Resistance" />
                                 <Picker.Item label="Accuracy" value="Accuracy" />
                             </Picker>
                         </View>
-                        {/* <View style={styles.textContainer}>
+                        <View style={styles.checkBoxContainer}>
+                            {/* <Text style={styles.switchText}>Gem:</Text> */}
+                            <CheckBox
+                                title='Gem:'
+                                iconRight
+                                center
+                                textStyle={{
+                                    color: "#DFC87F",
+                                    fontSize: 20,
+                                }}
+                                checkedColor="#FFCD1D"
+
+                                containerStyle={styles.checkBox}
+                                checked={showGem}
+                                onPress={this._askGem} />
+                        </View>
+                        {showGem ? (
+                            <View style={styles.pickerContainerContainer}>
+                                {/* <View style={styles.textContainer}>
                             <Text style={styles.text}></Text>
                         </View> */}
-                        <View style={styles.pickSubOptionContainer}>
-                            <Picker style={styles.pickGem} mode="dropdown" selectedValue={gemAfter} onValueChange={(itemValue, itemIndex) => this.setState({ gemAfter: itemValue })}>
-                                <Picker.Item label="to" value="0" />
-                                <Picker.Item label="ATK+" value="ATK+" />
-                                <Picker.Item label="DEF+" value="DEF+" />
-                                <Picker.Item label="HP+" value="HP+" />
-                                <Picker.Item label="ATK%" value="ATK%" />
-                                <Picker.Item label="DEF%" value="DEF%" />
-                                <Picker.Item label="HP%" value="HP%" />
-                                <Picker.Item label="SPD" value="SPD" />
-                                <Picker.Item label="CRI DMG" value="CRI DMG" />
-                                <Picker.Item label="CRI Rate" value="CRI Rate" />
-                                <Picker.Item label="Resistance" value="Resistance" />
-                                <Picker.Item label="Accuracy" value="Accuracy" />
-                            </Picker>
+                                <View style={styles.pickSubOptionContainer}>
+                                    <Picker style={styles.pickGem} mode="dropdown" selectedValue={gemPrev} onValueChange={(itemValue, itemIndex) => this.setState({ gemPrev: itemValue })}>
+                                        <Picker.Item label="From" value="0" />
+                                        <Picker.Item label="ATK+" value="ATK+" />
+                                        <Picker.Item label="DEF+" value="DEF+" />
+                                        <Picker.Item label="HP+" value="HP+" />
+                                        <Picker.Item label="ATK%" value="ATK%" />
+                                        <Picker.Item label="DEF%" value="DEF%" />
+                                        <Picker.Item label="HP%" value="HP%" />
+                                        <Picker.Item label="SPD" value="SPD" />
+                                        <Picker.Item label="CRI DMG" value="CRI DMG" />
+                                        <Picker.Item label="CRI Rate" value="CRI Rate" />
+                                        <Picker.Item label="Resistance" value="Resistance" />
+                                        <Picker.Item label="Accuracy" value="Accuracy" />
+                                    </Picker>
+                                </View>
+                                {/* <View style={styles.textContainer}>
+                            <Text style={styles.text}></Text>
+                        </View> */}
+                                <View style={styles.pickSubOptionContainer}>
+                                    <Picker style={styles.pickGem} mode="dropdown" selectedValue={gemAfter} onValueChange={(itemValue, itemIndex) => this.setState({ gemAfter: itemValue })}>
+                                        <Picker.Item label="to" value="0" />
+                                        <Picker.Item label="ATK+" value="ATK+" />
+                                        <Picker.Item label="DEF+" value="DEF+" />
+                                        <Picker.Item label="HP+" value="HP+" />
+                                        <Picker.Item label="ATK%" value="ATK%" />
+                                        <Picker.Item label="DEF%" value="DEF%" />
+                                        <Picker.Item label="HP%" value="HP%" />
+                                        <Picker.Item label="SPD" value="SPD" />
+                                        <Picker.Item label="CRI DMG" value="CRI DMG" />
+                                        <Picker.Item label="CRI Rate" value="CRI Rate" />
+                                        <Picker.Item label="Resistance" value="Resistance" />
+                                        <Picker.Item label="Accuracy" value="Accuracy" />
+                                    </Picker>
+                                </View>
+                            </View>
+                        ) : (
+                                <View></View>
+                            )}
+                        <View style={styles.checkBoxContainer}>
+                            {/* <Text style={styles.switchText}> GrindStone:</Text> */}
+
+                            <CheckBox
+                                containerStyle={styles.checkBox}
+                                checked={showGrindStone}
+                                title='GrindStone:'
+                                iconRight
+                                center
+                                textStyle={{
+                                    color: "#DFC87F",
+                                    fontSize: 20,
+                                }}
+                                checkedColor="#FFCD1D"
+                                onPress={this._askGrindStone} />
                         </View>
-                    </View>
-                ) : (
-                        <View></View>
-                    )}
-                <View style={styles.checkBoxContainer}>
-                    {/* <Text style={styles.switchText}> GrindStone:</Text> */}
 
-                    <CheckBox
-                        containerStyle={styles.checkBox}
-                        checked={showGrindStone}
-                        title='GrindStone:'
-                        iconRight
-                        center
-                        textStyle={{
-                            color: "#DFC87F",
-                            fontSize: 20,
-                        }}
-                        checkedColor="#FFCD1D"
-                        onPress={this._askGrindStone} />
-                </View>
-
-                {/* {showGem ? (
+                        {/* {showGem ? (
                     <View style={styles.pickerContainerContainer}>
                         <View style={styles.textContainer}>
                             <Text style={styles.text}>Gem:</Text>
@@ -356,47 +358,55 @@ export default class runePicker extends React.Component {
                 ) : (
                         <View></View>
                     )} */}
-                {showGrindStone ? (
-                    <View style={styles.pickeGrindStoneContainer}>
-                        {/* <View style={styles.textContainer}>
+                        {showGrindStone ? (
+                            <View style={styles.pickeGrindStoneContainer}>
+                                {/* <View style={styles.textContainer}>
                             <Text style={styles.text}>GrindStone:</Text>
                         </View> */}
-                        <Picker style={styles.pickGrindStone} mode="dropdown" selectedValue={grindStone} onValueChange={(itemValue, itemIndex) => this.setState({ grindStone: itemValue })}>
-                            <Picker.Item label="select" value="0" />
-                            <Picker.Item label="ATK+" value="ATK+" />
-                            <Picker.Item label="DEF+" value="DEF+" />
-                            <Picker.Item label="HP+" value="HP+" />
-                            <Picker.Item label="ATK%" value="ATK%" />
-                            <Picker.Item label="DEF%" value="DEF%" />
-                            <Picker.Item label="HP%" value="HP%" />
-                            <Picker.Item label="SPD" value="SPD" />
-                            <Picker.Item label="CRI DMG" value="CRI DMG" />
-                            <Picker.Item label="CRI Rate" value="CRI Rate" />
-                            <Picker.Item label="Resistance" value="Resistance" />
-                            <Picker.Item label="Accuracy" value="Accuracy" />
-                        </Picker>
-                    </View>
-                ) : (
-                        <View></View>
-                    )}
-                <View style={styles.descriptionContainer}>
-                    <TextInput
-                        style={styles.description}
-                        placeholder="Describe the Rune"
-                        placeholderTextColor="#AC9E87"
-                        // value={description}
-                        autoCorrect={false}
-                        multiline
-                        onChangeText={this._controlDescription}
-                        returnKeyType={"next"}
-                    // onSubmitEditing={Keyboard.removeListener("keyboardDidHide")}
-                    />
-                </View>
-                {/* <View style={styles.pickerContainerContainer}>
+                                <Picker style={styles.pickGrindStone} mode="dropdown" selectedValue={grindStone} onValueChange={(itemValue, itemIndex) => this.setState({ grindStone: itemValue })}>
+                                    <Picker.Item label="select" value="0" />
+                                    <Picker.Item label="ATK+" value="ATK+" />
+                                    <Picker.Item label="DEF+" value="DEF+" />
+                                    <Picker.Item label="HP+" value="HP+" />
+                                    <Picker.Item label="ATK%" value="ATK%" />
+                                    <Picker.Item label="DEF%" value="DEF%" />
+                                    <Picker.Item label="HP%" value="HP%" />
+                                    <Picker.Item label="SPD" value="SPD" />
+                                    <Picker.Item label="CRI DMG" value="CRI DMG" />
+                                    <Picker.Item label="CRI Rate" value="CRI Rate" />
+                                    <Picker.Item label="Resistance" value="Resistance" />
+                                    <Picker.Item label="Accuracy" value="Accuracy" />
+                                </Picker>
+                            </View>
+                        ) : (
+                                <View></View>
+                            )}
+
+
+                        <View style={styles.descriptionContainer}>
+                            <TextInput
+                                style={styles.description}
+                                placeholder="Describe the Rune"
+                                placeholderTextColor="#AC9E87"
+                                // value={description}
+                                // selectTextOnFocus={true}
+                                // showSoftInputOnFocus={false}
+                                // autoCorrect={false}
+                                multiline
+                                onChangeText={this._controlDescription}
+                                returnKeyType={"next"}
+                            // onSubmitEditing={Keyboard.removeListener("keyboardDidHide")}
+                            />
+                        </View>
+
+
+                        {/* <View style={{ height: 60 }} /> */}
+
+                        {/* <View style={styles.pickerContainerContainer}>
                     <Text> Reapprisal Stone:     </Text>
                     <Switch value={reapprisal} onValueChange={this._askReapprisal}></Switch>
                 </View> */}
-                {/* <Button
+                        {/* <Button
                     title="sumbit"
                     color="#C69941"
                     titleStyle={styles.sumbit}
@@ -404,23 +414,28 @@ export default class runePicker extends React.Component {
                     // buttonStyle={styles.sumbit}
                     onPress={() => this._addRune()}
                 /> */}<View style={styles.sumbit}>
-                    <TouchableOpacity onPressOut={() => this._addRune()}>
-                        <Text style={styles.sumbitButton}> Sumbit </Text>
+                            <TouchableOpacity onPressOut={() => this._addRune()}>
+                                <Text style={styles.sumbitButton}> Sumbit </Text>
 
-                    </TouchableOpacity>
+                            </TouchableOpacity>
+                        </View>
+                        {/* <Button title="callback" onPress={() => this._getData()}></Button> */}
+                        {/* <Button title="test" onPress={() => this.getKeys()}></Button> */}
+                        {/* <Text>you selected {this.state.runeType} with num {this.state.runeNum}</Text> */}
+                        {/* <Text>you selected {this.state.runeType} with num {this.state.runeNum}</Text> */}
+                    </ScrollView>
                 </View>
-                {/* <Button title="callback" onPress={() => this._getData()}></Button> */}
-                {/* <Button title="test" onPress={() => this.getKeys()}></Button> */}
-                {/* <Text>you selected {this.state.runeType} with num {this.state.runeNum}</Text> */}
-                {/* <Text>you selected {this.state.runeType} with num {this.state.runeNum}</Text> */}
-            </ScrollView>
+                <View style={{ backgroundColor: "#372211", height: 100 }}></View>
+            </KeyboardAvoidingView>
+
         );
     }
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#372211"
+        backgroundColor: "#372211",
+        height: "100%"
         // flexDirection: "",
         // justifyContent: "center",
         // alignItems: "center"
