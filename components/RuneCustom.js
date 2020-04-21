@@ -15,6 +15,10 @@ function makeFirstLetterCap(text) {
 export default class RuneCustom extends React.Component {
     state = {
         id: "",
+        isEditing: false,
+        isGemExsist: false,
+        isGrindStoneExsist: false,
+        isDescriptionExsist: false,
         runeInfo: {}
     }
     componentDidMount = () => {
@@ -33,22 +37,42 @@ export default class RuneCustom extends React.Component {
             // console.log(par)
             // console.log(parsedRunes[id]);
 
-            await this.setState({
+            this.setState({
                 //   loadedRunes: true,
                 runeInfo: parsedRunes[id] || {}
             });
             const { runeInfo } = this.state
             console.log(runeInfo)
+            if (runeInfo.gemPrev !== "" || runeInfo.gemAfter !== "") {
+                this.setState({
+                    //   loadedRunes: true,
+                    isGemExsist: true
+                });
+            } if (runeInfo.grindStone !== "") {
+                this.setState({
+                    //   loadedRunes: true,
+                    isGrindStoneExsist: true
+                });
+            }
+            if (runeInfo.description !== "") {
+                this.setState({
+                    //   loadedRunes: true,
+                    isDescriptionExsist: true
+                });
+            }
             // console.log(runeInfo.runeType)
 
         } catch (error) {
             console.log(error)
         }
     }
+    _isEditing = () => {
+
+    }
 
 
     render() {
-        const { runeInfo } = this.state
+        const { runeInfo, isGemExsist, isGrindStoneExsist, isDescriptionExsist, } = this.state
 
         // this.props.navigation.getParams.getParams('id', 'no-value')
         return (
@@ -67,16 +91,44 @@ export default class RuneCustom extends React.Component {
                     </View>
                 </View>
                 <View style={styles.subInfoContainer}>
-                    <Text style={styles.textInfo}>Gem</Text>
-                    <Text style={styles.text}>{runeInfo.gemPrev}    to    {runeInfo.gemAfter}</Text>
-                    <Text style={styles.textInfo}>GrindStone</Text>
-                    <Text style={styles.text}>{runeInfo.grindStone}</Text>
+                    {
+                        isGemExsist ? (
+                            <View>
+                                <Text style={styles.textInfo}>Gem</Text>
+                                <Text style={styles.text}>{runeInfo.gemPrev}    to    {runeInfo.gemAfter}</Text>
+                            </View>
+                        ) : (
+                                <View></View>
+                            )
+                    }
+                    {
+                        isGrindStoneExsist ? (
+                            <View>
+                                <Text style={styles.textInfo}>GrindStone</Text>
+                                <Text style={styles.text}>{runeInfo.grindStone}</Text>
+                            </View>
+                        ) : (
+                                <View></View>
+                            )
+                    }
+                    {
+                        isDescriptionExsist ? (
+                            <View>
+                                <Text style={styles.textInfo}>Description</Text>
+                                <Text style={styles.text}>{runeInfo.description}</Text>
+                            </View>
+                        ) : (
+                                <View></View>
+                            )
+                    }
+
+
                 </View>
                 <View style={styles.editButtonContainer}>
-                    <TouchableOpacity onPressOut={() => this._addRune()}>
+                    {/* <TouchableOpacity onPressOut={() => this._isEditing()}>
                         <Text style={styles.editButton}> Edit </Text>
 
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
         );
@@ -119,7 +171,8 @@ const styles = StyleSheet.create({
         // backgroundColor: "red"
     },
     text: {
-        color: "#9F8B58",
+        color: "#DFC87F",
+        // color: "#9F8B58",
         fontSize: 23
     },
     editButtonContainer: {

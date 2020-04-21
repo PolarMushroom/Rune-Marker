@@ -3,18 +3,17 @@ import React from "react";
 import { StyleSheet, Text, View, Button, AsyncStorage, Alert } from 'react-native';
 import { ScrollView, FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import Runes from './components/Runes'
-import { SearchBar } from 'react-native-elements';
-import { Icon } from "react-native-elements";
-import { element } from "prop-types";
+import { SearchBar, Icon } from 'react-native-elements';
 
-function Item({ id, runeType, runeNum, gemPrev, gemAfter, grindStone, goToEdit, deleteRune }) {
+function Item({ id, runeType, runeNum, mainOption, gemPrev, gemAfter, grindStone, goToEdit, deleteRune }) {
 
     return (
 
         <View style={styles.itemContainer}>
             <View style={styles.runeDescription}>
                 <TouchableOpacity onPressOut={() => goToEdit(id)}>
-                    <Text style={styles.runeType}> {runeType.charAt(0).toUpperCase() + runeType.slice(1)} ({runeNum}){checkGem(gemAfter)}{checkGrindStone(grindStone, gemAfter)}</Text>
+                    <Text style={styles.runeType}> {runeType.charAt(0).toUpperCase() + runeType.slice(1)} ({runeNum}) {mainOption}{checkGem(gemAfter)}{checkGrindStone(grindStone, gemAfter)}</Text>
+                    {/* <Text style={styles.runeType}></Text> */}
                     {/* <Text style={styles.runeType}>{checkGem(gemAfter)}{checkGrindStone(grindStone)}</Text> */}
                     {/* <Text style={styles.text}></Text> */}
                 </TouchableOpacity>
@@ -22,7 +21,15 @@ function Item({ id, runeType, runeNum, gemPrev, gemAfter, grindStone, goToEdit, 
             <View style={styles.actions}>
                 <TouchableOpacity onPressOut={() => deleteRune(id)}>
                     <View style={styles.actionContainer}>
-                        <Text style={styles.actionText}>❌</Text>
+                        {/* <Text style={styles.actionText}>s</Text> */}
+                        <Icon
+                            name='trash'
+                            type='font-awesome'
+                            iconStyle={styles.actionText}
+                            color='#DFC87F'
+                        />
+
+                        {/* <i class="far fa-trash-alt"></i> */}
                     </View>
                 </TouchableOpacity>
                 {/* <TouchableOpacity onPressOut={() => { () => deleteRune(id) }}>
@@ -37,7 +44,7 @@ function Item({ id, runeType, runeNum, gemPrev, gemAfter, grindStone, goToEdit, 
 //check gemAfter is exist True:return value / False:return null
 function checkGem(input) {
     // console.log(input);
-    if (input !== "") {
+    if (input !== "0") {
         const grindStone = input
         return `\n Gem: ${grindStone}`
     } else {
@@ -287,6 +294,7 @@ export default class Home extends React.Component {
                         runeNum={runes[item].runeNum}
                         gemPrev={runes[item].gemPrev}
                         gemAfter={runes[item].gemAfter}
+                        mainOption={runes[item].mainOption}
                         grindStone={runes[item].grindStone}
                         goToEdit={this._goToEdit}
                         deleteRune={this._deleteRune}
@@ -311,7 +319,7 @@ export default class Home extends React.Component {
                 {/* <View style={styles.as}><Text>sds</Text></View> */}
 
                 <View style={styles.iconContainer}>
-                    <Icon name='add-circle' color="#FFCD1D" onPress={() => this.props.navigation.navigate('runePick')}></Icon>
+                    <Icon name='add-circle' color="#DFC87F" onPress={() => this.props.navigation.navigate('runePick')}></Icon>
                 </View>
                 {/* <Button title="callback" disabled={false} onPress={() => this._sss()}></Button> */}
 
@@ -331,6 +339,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#372211"
     },
+    actionText: {
+        fontSize: 24,
+        fontWeight: "bold"
+    },
     itemContainer: {
         justifyContent: "space-between",
         alignItems: "center",
@@ -347,7 +359,8 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 8,
         textAlign: "auto",
-        color: "#9F8B58",
+        color: "#DFC87F",
+        // color: "#9F8B58",
         backgroundColor: "#533C21",
         borderColor: "#2B1606"
     },

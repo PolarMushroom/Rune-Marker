@@ -13,9 +13,9 @@ export default class runePicker extends React.Component {
     state = {
         runeType: "0",
         runeNum: "0",
-        mainOption: "",
-        gemPrev: "",
-        gemAfter: "",
+        mainOption: "HP%",
+        gemPrev: "0",
+        gemAfter: "0",
         grindStone: "",
         showGem: false,
         showGrindStone: false,
@@ -40,6 +40,18 @@ export default class runePicker extends React.Component {
                 showGem: !prevState.showGem
             }
         })
+        const { showGem } = this.state
+        console.log(showGem);
+
+        if (showGem == true) {
+            // console.log("kaka");
+
+            this.setState({
+                gemPrev: "",
+                gemAfter: "",
+            })
+        }
+
     }
     _askGrindStone = () => {
         this.setState(prevState => {
@@ -47,6 +59,12 @@ export default class runePicker extends React.Component {
                 showGrindStone: !prevState.showGrindStone
             }
         })
+        const { showGrindStone } = this.state
+        if (showGrindStone == true) {
+            this.setState({
+                grindStone: ""
+            })
+        }
     }
     _controlDescription = text => {
         this.setState({
@@ -72,19 +90,29 @@ export default class runePicker extends React.Component {
         }
     }
     _addRune = async () => {
-        const { runeNum, runeType, mainOption, reapprisal, description, gemPrev, gemAfter, grindStone, showGem, showGrindStone } = this.state;
+        // const { showGem, showGrindStone } = this.state
+        // if (showGem == false) {
+        //     this.setState({
+        //         gemPrev: "",
+        //         gemAfter: "",
+        //     })
+        // }
+        // // const { showGrindStone } = this.state
+        // if (showGrindStone == false) {
+        //     this.setState({
+        //         grindStone: ""
+        //     })
+        // }
+
+        const { runeNum, runeType, mainOption, reapprisal, description, showGem, gemPrev, gemAfter, grindStone } = this.state;
         if (runeType !== "0" && runeNum !== "0") {
-            if (showGem == false) {
-                this.setState({
-                    gemPrev: "",
-                    gemAfter: "",
-                })
+            // console.log(showGem);
+
+            if (showGem == true && gemPrev == "0" && gemAfter == "0") {
+                Alert.alert("Select Gem");
+                return
             }
-            if (showGrindStone == false) {
-                this.setState({
-                    grindStone: ""
-                })
-            }
+
             const ID = uuidv5(`${Date.now()}`, uuidv5.DNS);
             this.setState(prevState => {
                 const newToDoObject = {
@@ -120,9 +148,9 @@ export default class runePicker extends React.Component {
             });
 
         } else if (runeType == "0") {
-            Alert.alert("select rune type");
+            Alert.alert("Select Rune Type");
         } else if (runeNum == "0") {
-            Alert.alert("select rune number");
+            Alert.alert("Select Rune Number");
         }
     };
 
@@ -139,7 +167,12 @@ export default class runePicker extends React.Component {
                         <View style={styles.textContainerww}>
                             <Text style={styles.textMain}> Rune Type:</Text>
                         </View>
-                        <Picker style={styles.pickRune} mode="dropdown" selectedValue={runeType} onValueChange={(itemValue, itemIndex) => this.setState({ runeType: itemValue })}>
+                        <Picker style={styles.pickRune} mode="dropdown" selectedValue={runeType}
+                            onValueChange={(itemValue, itemIndex) => {
+                                this.setState({
+                                    runeType: itemValue
+                                })
+                            }}>
                             <Picker.Item label="Select" value="0" />
                             <Picker.Item label="Violent" value="violent" />
                             <Picker.Item label="Will" value="will" />
@@ -167,7 +200,16 @@ export default class runePicker extends React.Component {
                         <View style={styles.textContainerww}>
                             <Text style={styles.textMain}>Rune Number:</Text>
                         </View>
-                        <Picker style={styles.pickRune} selectedValue={runeNum} mode="dropdown" onValueChange={(itemValue, itemIndex) => this.setState({ runeNum: itemValue })}>
+                        <Picker style={styles.pickRune} selectedValue={runeNum} mode="dropdown" onValueChange={(itemValue, itemIndex) => {
+                            if (itemValue == 1) {
+                                this.setState({ mainOption: "ATK+" })
+                            } else if (itemValue == 3) {
+                                this.setState({ mainOption: "DEF+" })
+                            } else if (itemValue == 5) {
+                                this.setState({ mainOption: "HP+" })
+                            }
+                            this.setState({ runeNum: itemValue })
+                        }}>
                             <Picker.Item label="Select Rune Number" value="0" />
                             <Picker.Item label="1" value="1" />
                             <Picker.Item label="2" value="2" />
@@ -184,13 +226,13 @@ export default class runePicker extends React.Component {
                     </View>
                     <Picker style={styles.pickOption} mode="dropdown" selectedValue={mainOption} onValueChange={(itemValue, itemIndex) => this.setState({ mainOption: itemValue })}>
 
-                        <Picker.Item label="ATK%" value="ATK%" />
-                        <Picker.Item label="DEF%" value="DEF%" />
                         <Picker.Item label="HP%" value="HP%" />
                         <Picker.Item label="SPD" value="SPD" />
+                        <Picker.Item label="DEF%" value="DEF%" />
+                        <Picker.Item label="ATK%" value="ATK%" />
                         <Picker.Item label="CRI DMG" value="CRI DMG" />
                         <Picker.Item label="CRI Rate" value="CRI Rate" />
-                        <Picker.Item label="ATK+" value="atk+" />
+                        <Picker.Item label="ATK+" value="ATK+" />
                         <Picker.Item label="DEF+" value="DEF+" />
                         <Picker.Item label="HP+" value="HP+" />
                         <Picker.Item label="Resistance" value="Resistance" />
@@ -204,7 +246,7 @@ export default class runePicker extends React.Component {
                         iconRight
                         center
                         textStyle={{
-                            color: "#9F8B58",
+                            color: "#DFC87F",
                             fontSize: 20,
                         }}
                         checkedColor="#FFCD1D"
@@ -221,7 +263,7 @@ export default class runePicker extends React.Component {
                         <View style={styles.pickSubOptionContainer}>
                             <Picker style={styles.pickGem} mode="dropdown" selectedValue={gemPrev} onValueChange={(itemValue, itemIndex) => this.setState({ gemPrev: itemValue })}>
                                 <Picker.Item label="From" value="0" />
-                                <Picker.Item label="ATK+" value="atk+" />
+                                <Picker.Item label="ATK+" value="ATK+" />
                                 <Picker.Item label="DEF+" value="DEF+" />
                                 <Picker.Item label="HP+" value="HP+" />
                                 <Picker.Item label="ATK%" value="ATK%" />
@@ -267,7 +309,7 @@ export default class runePicker extends React.Component {
                         iconRight
                         center
                         textStyle={{
-                            color: "#9F8B58",
+                            color: "#DFC87F",
                             fontSize: 20,
                         }}
                         checkedColor="#FFCD1D"
@@ -393,11 +435,11 @@ const styles = StyleSheet.create({
         // margin: 10
     },
     switchText: {
-        color: "#9F8B58",
+        color: "#DFC87F",
         fontSize: 20,
     },
     textMain: {
-        color: "#9F8B58",
+        color: "#DFC87F",
         fontSize: 20,
         fontWeight: "bold",
         margin: 10
@@ -454,7 +496,7 @@ const styles = StyleSheet.create({
     pickOption: {
         flex: 1,
         margin: 10,
-        color: "#9F8B58",
+        color: "#1e272e",
         backgroundColor: "#D7C58D",
         borderWidth: 1,
         borderRadius: 10,
@@ -473,7 +515,7 @@ const styles = StyleSheet.create({
         // backgroundColor: "red",
         // height: 100,
         margin: 10,
-        color: "#9F8B58",
+        color: "#1e272e",
         backgroundColor: "#D7C58D",
         borderWidth: 1,
         borderRadius: 10,
@@ -495,7 +537,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 5,
         width: "95%",
-        color: "#9F8B58",
+        color: "#1e272e",
         backgroundColor: "#D7C58D",
         // borderWidth: 2,
     },
@@ -512,7 +554,7 @@ const styles = StyleSheet.create({
     pickGem: {
 
         flex: 1,
-        color: "#9F8B58",
+        color: "#1e272e",
         fontSize: 20,
         backgroundColor: "#D7C58D",
         // borderWidth: 0,

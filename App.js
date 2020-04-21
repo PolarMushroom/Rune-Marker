@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, View, Text } from 'react-native';
+import { Button, View, Text, Alert } from 'react-native';
 import Loading from './Loading';
 import Home from "./Home";
 import Gem from './components/Gem'
@@ -9,6 +9,8 @@ import Grindstone from './components/Grindstone';
 import RuneCustom from './components/RuneCustom';
 import runePick from './runePick'
 import Runes from './components/Runes';
+import { Icon } from 'react-native-elements';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 
@@ -29,9 +31,19 @@ function MyStack() {
           },
           headerTitleStyle: {
             fontWeight: 'bold',
-            color: "#9F8B58"
-          }, title: 'Rune Marker',
-
+            color: "#DFC87F"
+          },
+          title: 'Rune Marker',
+          headerRight: () => (
+            <TouchableOpacity onPressOut={() => { Alert.alert("Report Bug to: \nvictoriy104@gmail.com") }}>
+              <Icon
+                name='bug'
+                type='font-awesome'
+                iconStyle={{ marginRight: 10 }}
+                color='#DFC87F'
+              />
+            </TouchableOpacity>
+          )
         }} />
 
         <Stack.Screen name="Gem" component={Gem} />
@@ -42,7 +54,7 @@ function MyStack() {
           },
           headerTitleStyle: {
             fontWeight: 'bold',
-            color: "#9F8B58"
+            color: "#DFC87F"
           }, title: 'Rune Page',
 
         }} />
@@ -52,7 +64,8 @@ function MyStack() {
           },
           headerTitleStyle: {
             fontWeight: 'bold',
-            color: "#9F8B58"
+            color: "#DFC87F",
+            // color: "#9F8B58"
           }, title: 'Create Rune',
 
         }} />
